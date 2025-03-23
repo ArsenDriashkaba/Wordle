@@ -1,22 +1,41 @@
 import { WORD_LENGTH } from "../constants/shared";
-import { WordsAction, WordsActionTypes, WordsContextState } from "./types";
+import {
+  WordsAction,
+  WordsActionTypes,
+  WordsContextState,
+  GuessedChar,
+} from "./types";
 
 // Handlers
 const handleAddGuess = (
   state: WordsContextState,
   value: WordsAction["value"]
 ): WordsContextState => {
-  console.log({ state, value });
   // TODO: Some validation
   if (value.length !== WORD_LENGTH) {
     return state;
   }
 
-  // TODO: Add used characters
+  const updatedGuesses = [...value].reduce((acc, curr) => {
+    const normalizedWordToGuess = state.currentWord.toUpperCase();
+    const normalizedGuessedChar = curr.toUpperCase();
 
-  const updatedGuesses = state.guesses.push(value);
+    const guessedCharIdx = normalizedWordToGuess.indexOf(normalizedGuessedChar);
+    const isCorrect = guessedCharIdx >= 0;
+    const isOnCorrectPlace =
+      normalizedGuessedChar === normalizedWordToGuess.charAt(guessedCharIdx);
+    const guessedChar: GuessedChar = {
+      char: curr,
+      isCorrect,
+      isOnCorrectPlace,
+    };
 
-  return { ...state, guesses: updatedGuesses };
+    state.usedCharacters.add(curr);
+
+    return [...acc, guessedChar];
+  }, [] as WordsContextState["guesses"]);
+
+  return { ...state, guesses: [...state.guesses, updatedGuesses] };
 };
 
 export const wordsReducer = (

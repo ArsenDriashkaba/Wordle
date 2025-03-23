@@ -15,8 +15,14 @@ type AddGuess = {
 
 export type WordsAction = SetWordAction | AddGuess;
 
+export type GuessedChar = {
+  char: string;
+  isCorrect: boolean;
+  isOnCorrectPlace: boolean;
+};
+
 export type WordsContextState = {
   currentWord: string;
   usedCharacters: Set<string>;
-  guesses: string[];
+  guesses: GuessedChar[][];
 } & any;
