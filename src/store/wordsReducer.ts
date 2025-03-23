@@ -6,9 +6,10 @@ const handleAddGuess = (
   state: WordsContextState,
   value: WordsAction["value"]
 ): WordsContextState => {
+  console.log({ state, value });
   // TODO: Some validation
   if (value.length !== WORD_LENGTH) {
-    return;
+    return state;
   }
 
   // TODO: Add used characters

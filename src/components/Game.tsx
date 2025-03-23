@@ -26,7 +26,7 @@ export const Game: FC = () => {
 
   return (
     <div>
-      <h1>{wordsState.currentWord || "Loading..."}</h1>
+      <h1>{wordsState?.currentWord || "Loading..."}</h1>
       {[...Array(WORD_LENGTH + 1).keys()].map((index) => (
         <TileRow key={index} />
       ))}

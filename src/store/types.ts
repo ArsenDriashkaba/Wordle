@@ -17,6 +17,6 @@ export type WordsAction = SetWordAction | AddGuess;
 
 export type WordsContextState = {
   currentWord: string;
-  usedCharacters: string[];
+  usedCharacters: Set<string>;
   guesses: string[];
 } & any;

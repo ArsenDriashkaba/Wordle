@@ -11,7 +11,11 @@ import { WordsActionTypes, WordsContextState } from "./types";
 import { wordsReducer } from "./wordsReducer";
 import { getWord } from "../api";
 
-const initialState: WordsContextState = { currentWord: "", usedCharacters: [] };
+const initialState: WordsContextState = {
+  currentWord: "",
+  guesses: [],
+  usedCharacters: new Set(),
+} as const;
 
 type WordsContextType = {
   wordsState: WordsContextState;
