@@ -1,32 +1,23 @@
 import { FC } from "react";
+import { GuessedChar } from "../store";
 import { tv } from "tailwind-variants";
 
 const tileStyles = tv({
-  base: "font-medium bg-blue-500 text-white rounded-full active:opacity-80",
+  base: "w-10 aspect-square font-medium bg-white border border-solid border-black flex items-center justify-center",
   variants: {
-    state: {
-      ordinary: "bg-blue-500 text-white",
-      correct: "bg-purple-500 text-white",
-      onTheRIghtSpot: "",
-    },
+    char: { true: "bg-gray-200" },
+    isCorrect: { true: "bg-yellow-300" },
+    isOnCorrectPlace: { true: "bg-green-300" },
   },
-  defaultVariants: {
-    state: "ordinary",
-  },
+  defaultVariants: {},
 });
 
-export type TileProps = {
-  isUsed?: boolean;
-  letter?: string;
-  isCorrect?: boolean;
-  onTheRightPos?: boolean;
-};
+export type TileProps = Partial<GuessedChar>;
 
-export const Tile: FC<TileProps> = ({
-  isUsed,
-  letter,
-  isCorrect,
-  onTheRightPos,
-}) => {
-  return <div className={tileStyles()}>{isUsed ? letter : ""}</div>;
+export const Tile: FC<TileProps> = ({ char, isCorrect, isOnCorrectPlace }) => {
+  return (
+    <div className={tileStyles({ char: !!char, isCorrect, isOnCorrectPlace })}>
+      {char || ""}
+    </div>
+  );
 };

@@ -1,30 +1,19 @@
+import { FC, createContext, useContext, useEffect, useReducer } from "react";
 import {
-  Dispatch,
-  FC,
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-} from "react";
-import { WordsActionTypes, WordsContextState } from "./types";
+  WordsContextState,
+  WordsContextType,
+  WordsContextWrapperProps,
+} from "./types";
 import { wordsReducer } from "./wordsReducer";
 import { getWord } from "../api";
+import { GameStates, WordsActionTypes } from "./constants";
 
 const initialState: WordsContextState = {
+  gameState: GameStates.IN_PROGRESS,
   currentWord: "",
   guesses: [],
   usedCharacters: new Set(),
 } as const;
-
-type WordsContextType = {
-  wordsState: WordsContextState;
-  dispatch: Dispatch<any>;
-};
-
-type WordsContextWrapperProps = {
-  children: ReactNode;
-};
 
 export const WordsContext = createContext<WordsContextType>(
   {} as WordsContextType

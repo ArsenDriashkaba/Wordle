@@ -1,19 +1,28 @@
-export const WordsActionTypes = {
-  SET_CURRENT_WORD: "setCurrentWord",
-  ADD_GUESS: "addGuess",
-} as const;
+import { Dispatch, ReactNode } from "react";
+import { GameStates, WordsActionTypes } from "./constants";
 
-type SetWordAction = {
+// Action types
+
+export type SetWordAction = {
   type: typeof WordsActionTypes.SET_CURRENT_WORD;
   value: string;
 };
 
-type AddGuess = {
+export type AddGuess = {
   type: typeof WordsActionTypes.ADD_GUESS;
   value: string;
 };
 
-export type WordsAction = SetWordAction | AddGuess;
+export type ResetGameState = {
+  type: typeof WordsActionTypes.RESET_GAME_STATE;
+  value: string;
+};
+
+export type WordsAction = SetWordAction | AddGuess | ResetGameState;
+
+// General Types
+
+export type GameState = keyof typeof GameStates;
 
 export type GuessedChar = {
   char: string;
@@ -22,7 +31,17 @@ export type GuessedChar = {
 };
 
 export type WordsContextState = {
+  gameState: GameState;
   currentWord: string;
   usedCharacters: Set<string>;
   guesses: GuessedChar[][];
-} & any;
+};
+
+export type WordsContextType = {
+  wordsState: WordsContextState;
+  dispatch: Dispatch<WordsAction>;
+};
+
+export type WordsContextWrapperProps = {
+  children: ReactNode;
+};
