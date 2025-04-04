@@ -42,6 +42,7 @@ export const Game: FC = () => {
                 key={index}
                 wordLength={WORD_LENGTH}
                 currentGuess={wordsState.guesses?.[index]}
+                isActive={true}
               />
             );
           }
@@ -52,6 +53,7 @@ export const Game: FC = () => {
                 key={index}
                 wordLength={WORD_LENGTH}
                 currentGuess={currentGuess}
+                isActive={true}
               />
             );
           }

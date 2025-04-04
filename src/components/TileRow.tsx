@@ -6,9 +6,14 @@ import { Word } from "../types/shared";
 export type TileRowProps = {
   wordLength: number;
   currentGuess?: Word | GuessedChar[];
+  isActive?: boolean;
 };
 
-export const TileRow: FC<TileRowProps> = ({ wordLength, currentGuess }) => {
+export const TileRow: FC<TileRowProps> = ({
+  wordLength,
+  currentGuess,
+  isActive,
+}) => {
   const getCurrentGuessedChar = (index: number): Partial<GuessedChar> => {
     if (typeof currentGuess === "string") {
       return { char: currentGuess.charAt(index).toUpperCase() };
@@ -20,7 +25,12 @@ export const TileRow: FC<TileRowProps> = ({ wordLength, currentGuess }) => {
   return (
     <div className="flex gap-2">
       {[...Array(wordLength).keys()].map((index) => (
-        <Tile key={index} {...getCurrentGuessedChar(index)} />
+        <Tile
+          key={index}
+          {...getCurrentGuessedChar(index)}
+          isActive={isActive}
+          isLast={index === currentGuess?.length}
+        />
       ))}
     </div>
   );

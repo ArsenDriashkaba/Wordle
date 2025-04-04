@@ -11,7 +11,7 @@ import {
   SetWordAction,
 } from "./types";
 
-// Handlers
+// Set State Handlers
 
 const handleSetInitialState = (
   state: WordsContextState,
