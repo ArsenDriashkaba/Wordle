@@ -1,21 +1,49 @@
 import { WORD_LENGTH } from "../constants/shared";
+import { getRandomItem } from "../utils/shared";
+import { getIsWordValid } from "../utils/words";
 import { GameStates, WordsActionTypes } from "./constants";
-import { WordsAction, WordsContextState, GuessedChar, AddGuess } from "./types";
+import {
+  WordsAction,
+  WordsContextState,
+  GuessedChar,
+  AddGuess,
+  GameState,
+  SetWordAction,
+} from "./types";
 
 // Handlers
+
+const handleSetInitialState = (
+  state: WordsContextState,
+  words: SetWordAction["value"]
+): WordsContextState => {
+  return { ...state, currentWord: getRandomItem(words), validWords: words };
+};
+
 const handleAddGuess = (
   state: WordsContextState,
   value: AddGuess["value"]
 ): WordsContextState => {
-  if (value.length !== WORD_LENGTH) {
-    return state;
+  if (!getIsWordValid(value, state.validWords)) {
+    return { ...state, errorMessage: "Your guess is not a valid word" };
   }
+
+  let gameState: GameState = GameStates.IN_PROGRESS;
 
   const normalizedWordToGuess = state.currentWord.toUpperCase();
   const normalizedGuessedWord = value.toUpperCase();
 
   const isSuccess = normalizedGuessedWord === normalizedWordToGuess;
+
+  if (isSuccess) {
+    gameState = GameStates.IS_SUCCESS;
+  }
+
   const isFailure = !isSuccess && state.guesses.length >= WORD_LENGTH;
+
+  if (isFailure) {
+    gameState = GameStates.IS_FAILURE;
+  }
 
   const newGuess = [...normalizedGuessedWord].reduce((acc, currChar, index) => {
     const guessedCharIdx = normalizedWordToGuess.indexOf(currChar);
@@ -32,17 +60,19 @@ const handleAddGuess = (
     return [...acc, guessedChar] as GuessedChar[];
   }, [] as GuessedChar[]);
 
-  console.log({ isSuccess, isFailure });
-
-  return { ...state, guesses: [...state.guesses, newGuess] };
+  return {
+    ...state,
+    guesses: [...state.guesses, newGuess],
+    gameState,
+    errorMessage: "",
+  };
 };
 
-const handleResetGameState = (
-  newWordToGuess: WordsContextState["currentWord"]
-): WordsContextState => {
+const handleResetGameState = (state: WordsContextState): WordsContextState => {
   return {
+    ...state,
     gameState: GameStates.IN_PROGRESS,
-    currentWord: newWordToGuess,
+    currentWord: getRandomItem(state.validWords),
     usedCharacters: new Set(),
     guesses: [],
   };
@@ -53,12 +83,12 @@ export const wordsReducer = (
   action: WordsAction
 ): WordsContextState => {
   switch (action.type) {
-    case WordsActionTypes.SET_CURRENT_WORD:
-      return { ...state, currentWord: action.value };
+    case WordsActionTypes.SET_INITIAL_STATE:
+      return handleSetInitialState(state, action.value);
     case WordsActionTypes.ADD_GUESS:
       return handleAddGuess(state, action.value);
     case WordsActionTypes.RESET_GAME_STATE:
-      return handleResetGameState(action.value);
+      return handleResetGameState(state);
     default:
       return state;
   }

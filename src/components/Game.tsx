@@ -2,12 +2,10 @@ import { FC } from "react";
 import { TileRow } from "./TileRow";
 import { useWordsContext, WordsActionTypes } from "../store";
 import { WORD_LENGTH } from "../constants/shared";
-import { getWord } from "../api";
 import { useHandleGuessInput } from "../hooks/useHandleGuessInput";
 
 export const Game: FC = () => {
   const { wordsState, dispatch } = useWordsContext();
-  const { currentGuess, setCurrentGuess } = useHandleGuessInput();
 
   const handleSubmitGuess = () => {
     if (!currentGuess) {
@@ -18,17 +16,18 @@ export const Game: FC = () => {
     setCurrentGuess("");
   };
 
-  const handleResetGame = () => {
-    dispatch({ type: WordsActionTypes.SET_CURRENT_WORD, value: "" });
+  const { currentGuess, setCurrentGuess } = useHandleGuessInput({
+    onSubmit: handleSubmitGuess,
+  });
 
-    getWord((word) =>
-      dispatch({ type: WordsActionTypes.RESET_GAME_STATE, value: word })
-    );
+  const handleResetGame = () => {
+    dispatch({ type: WordsActionTypes.RESET_GAME_STATE });
   };
 
   return (
     <div>
       <h2 className="bold mb-2">{wordsState?.gameState}</h2>
+      <h2 className="bold mb-2 red-800">{wordsState?.errorMessage}</h2>
       <h1 className="p-2 bg-amber-100">
         {wordsState?.currentWord || "Loading..."}
       </h1>

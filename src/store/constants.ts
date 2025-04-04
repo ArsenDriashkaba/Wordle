@@ -1,5 +1,5 @@
 export const WordsActionTypes = {
-  SET_CURRENT_WORD: "setCurrentWord",
+  SET_INITIAL_STATE: "setInitialState",
   ADD_GUESS: "addGuess",
   RESET_GAME_STATE: "resetGameState",
 } as const;

@@ -1,10 +1,11 @@
 import { FC } from "react";
 import { Tile } from "./Tile";
 import { GuessedChar } from "../store";
+import { Word } from "../types/shared";
 
 export type TileRowProps = {
   wordLength: number;
-  currentGuess?: string | GuessedChar[];
+  currentGuess?: Word | GuessedChar[];
 };
 
 export const TileRow: FC<TileRowProps> = ({ wordLength, currentGuess }) => {

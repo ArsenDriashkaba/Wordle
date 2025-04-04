@@ -1,21 +1,40 @@
-export const getWord = async (onFetchSuccess?: (word: string) => void) => {
-  if (!import.meta.env.VITE_WORDLE_API_URL) {
-    return;
+import { Word } from "../types/shared";
+import { endpoints } from "./endpoints";
+
+type Request<T> = {
+  endpoint: string;
+  onSuccess?: (data: T) => void;
+  onError?: (error?: any) => void;
+};
+
+export const getData = async <T>({
+  endpoint,
+  onSuccess,
+  onError,
+}: Request<T>) => {
+  if (!import.meta.env.VITE_API_URL) {
+    return null;
   }
 
   try {
-    const wordsListResponse = await fetch("/wordle/api/fe/wordle-words");
+    const response = await fetch(endpoint);
 
-    if (!wordsListResponse.ok) {
-      throw new Error(`Response status: ${wordsListResponse.status}`);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
 
-    const wordListData = await wordsListResponse.json();
+    const responseData = await response.json();
 
-    onFetchSuccess?.(
-      wordListData[Math.floor(Math.random() * wordListData.length)]
-    );
+    onSuccess?.(responseData);
+
+    return responseData;
   } catch (error) {
     console.error(error);
+    onError?.(error);
   }
 };
+
+export const getWords = async (
+  onSuccess?: (words: Word[]) => void
+): Promise<Word[]> =>
+  await getData({ endpoint: endpoints.getWords, onSuccess });

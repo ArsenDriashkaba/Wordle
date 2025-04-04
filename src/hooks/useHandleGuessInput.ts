@@ -1,24 +1,33 @@
 import { useState } from "react";
 import { useKeyDown } from "./useKeyDown";
 import { WORD_LENGTH } from "../constants/shared";
+import { getIsKeyInputValid } from "../utils/words";
+import { Word } from "../types/shared";
 
-export const useHandleGuessInput = () => {
-  const [currentGuess, setCurrentGuess] = useState<string>("");
+const KEYS = {
+  BACKSPACE: "Backspace",
+  ENTER: "Enter",
+} as const;
+
+type UseHandleGuessInputProps = { onSubmit?: () => void };
+
+export const useHandleGuessInput = ({ onSubmit }: UseHandleGuessInputProps) => {
+  const [currentGuess, setCurrentGuess] = useState<Word>("");
 
   useKeyDown((event) => {
-    if (event.key === "Backspace") {
+    if (event.key === KEYS.BACKSPACE) {
       setCurrentGuess((prev) => prev.slice(0, -1)); // Remove last character
+
       return;
     }
 
-    const isSingleCharacter = event.key.length === 1;
-    const isAllowedCharacter = /^[a-zA-Z]$/.test(event.key);
+    if (event.key === KEYS.ENTER) {
+      onSubmit?.();
 
-    if (
-      currentGuess.length < WORD_LENGTH &&
-      isSingleCharacter &&
-      isAllowedCharacter
-    ) {
+      return;
+    }
+
+    if (currentGuess.length < WORD_LENGTH && getIsKeyInputValid(event.key)) {
       setCurrentGuess((prev) => `${prev}${event.key}`);
     }
   });

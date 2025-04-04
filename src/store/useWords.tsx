@@ -5,12 +5,13 @@ import {
   WordsContextWrapperProps,
 } from "./types";
 import { wordsReducer } from "./wordsReducer";
-import { getWord } from "../api";
+import { getWords } from "../api";
 import { GameStates, WordsActionTypes } from "./constants";
 
 const initialState: WordsContextState = {
   gameState: GameStates.IN_PROGRESS,
   currentWord: "",
+  validWords: [],
   guesses: [],
   usedCharacters: new Set(),
 } as const;
@@ -25,8 +26,8 @@ export const WordsContextWrapper: FC<WordsContextWrapperProps> = ({
   const [wordsState, dispatch] = useReducer(wordsReducer, initialState);
 
   useEffect(() => {
-    getWord((value) =>
-      dispatch({ type: WordsActionTypes.SET_CURRENT_WORD, value })
+    getWords((words) =>
+      dispatch({ type: WordsActionTypes.SET_INITIAL_STATE, value: words })
     );
   }, []);
 
