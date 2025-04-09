@@ -1,11 +1,11 @@
 import { WORD_LENGTH } from "../constants/shared";
-import { getRandomItem } from "../utils/shared";
+import { GuessedChar } from "../types/shared";
+import { getRandomItem } from "../utils/arrays";
 import { getIsWordValid } from "../utils/words";
 import { GameStates, WordsActionTypes } from "./constants";
 import {
   WordsAction,
   WordsContextState,
-  GuessedChar,
   AddGuess,
   GameState,
   SetWordAction,
@@ -25,10 +25,15 @@ const handleAddGuess = (
   value: AddGuess["value"]
 ): WordsContextState => {
   if (!getIsWordValid(value, state.validWords)) {
-    return { ...state, errorMessage: "Your guess is not a valid word" };
+    return {
+      ...state,
+      errorMessage:
+        "Your guess is either not in the word list or is an invalid word",
+    };
   }
 
   let gameState: GameState = GameStates.IN_PROGRESS;
+  const lastUsedCharacters = new Set<GuessedChar>();
 
   const normalizedWordToGuess = state.currentWord.toUpperCase();
   const normalizedGuessedWord = value.toUpperCase();
@@ -55,7 +60,10 @@ const handleAddGuess = (
       isOnCorrectPlace,
     };
 
-    state.usedCharacters.add(currChar);
+    if (!state.usedCharacters.has(guessedChar)) {
+      state.usedCharacters.add(guessedChar);
+      lastUsedCharacters.add(guessedChar);
+    }
 
     return [...acc, guessedChar] as GuessedChar[];
   }, [] as GuessedChar[]);
@@ -63,6 +71,7 @@ const handleAddGuess = (
   return {
     ...state,
     guesses: [...state.guesses, newGuess],
+    lastUsedCharacters,
     gameState,
     errorMessage: "",
   };
@@ -74,7 +83,9 @@ const handleResetGameState = (state: WordsContextState): WordsContextState => {
     gameState: GameStates.IN_PROGRESS,
     currentWord: getRandomItem(state.validWords),
     usedCharacters: new Set(),
+    lastUsedCharacters: new Set(),
     guesses: [],
+    errorMessage: "",
   };
 };
 

@@ -8,7 +8,10 @@ const keyboardKeyStyles = tv({
   variants: {
     char: { true: ["bg-gray-200", "active:bg-white"] },
     isUsed: {
-      true: ["bg-secondary-500 text-secondary-100", "active:bg-secondary-100"],
+      true: [
+        "animate-flip-horizontal bg-secondary-500 text-secondary-100",
+        "active:bg-secondary-100",
+      ],
     },
     isCorrect: { true: ["bg-primary text-black", "active:bg-yellow-100"] },
     isOnCorrectPlace: {

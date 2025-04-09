@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode } from "react";
 import { GameStates, WordsActionTypes } from "./constants";
-import { Word } from "../types/shared";
+import { GuessedChar, Word } from "../types/shared";
 
 // Action types
 
@@ -24,17 +24,12 @@ export type WordsAction = SetWordAction | AddGuess | ResetGameState;
 
 export type GameState = keyof typeof GameStates;
 
-export type GuessedChar = {
-  char: string;
-  isCorrect: boolean;
-  isOnCorrectPlace: boolean;
-};
-
 export type WordsContextState = {
   gameState: GameState;
   currentWord: Word;
   validWords: Word[];
-  usedCharacters: Set<string>;
+  usedCharacters: Set<GuessedChar>;
+  lastUsedCharacters: Set<GuessedChar>;
   guesses: GuessedChar[][];
   errorMessage?: string;
 };
@@ -42,6 +37,9 @@ export type WordsContextState = {
 export type WordsContextType = {
   wordsState: WordsContextState;
   dispatch: Dispatch<WordsAction>;
+  isSuccess: () => boolean;
+  isFailure: () => boolean;
+  isInProgress: () => boolean;
 };
 
 export type WordsContextWrapperProps = {

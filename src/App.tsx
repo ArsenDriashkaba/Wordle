@@ -1,11 +1,11 @@
 import { Game } from "./components/Game";
-import { WordsContextWrapper } from "./store";
+import { Layout } from "./components/Layout";
 
 function App() {
   return (
-    <WordsContextWrapper>
+    <Layout>
       <Game />
-    </WordsContextWrapper>
+    </Layout>
   );
 }
 

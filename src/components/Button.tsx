@@ -3,20 +3,21 @@ import { tv, VariantProps } from "tailwind-variants";
 
 export const buttonStyles = tv({
   base: [
-    "flex cursor-pointer items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 ease-in-out",
+    "flex cursor-pointer items-center justify-center text-center gap-2 rounded-full font-medium transition-all duration-200 ease-in-out",
     "focus:outline-none focus-visible:border-transparent",
-    "active:shadow",
+    "active:opacity-90",
     "disabled:cursor-not-allowed disabled:active:shadow-none",
   ],
   variants: {
     variant: {
-      solid: "",
+      solid: "bg-primary text-black",
       outline: "border",
-      minimal: "",
+      ghost: "",
     },
     size: {
       md: "px-6 py-2.5 text-sm",
       lg: "px-12 py-4 text-lg",
+      keyboard: "p-0",
     },
   },
   defaultVariants: {
@@ -33,7 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const styles = buttonStyles({
       variant,
       size,
-      class: [size === "lg" ? "p-4.5" : "p-3", className],
+      className,
     });
 
     return (

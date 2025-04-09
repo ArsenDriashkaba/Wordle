@@ -14,6 +14,7 @@ const initialState: WordsContextState = {
   validWords: [],
   guesses: [],
   usedCharacters: new Set(),
+  lastUsedCharacters: new Set(),
 } as const;
 
 export const WordsContext = createContext<WordsContextType>(
@@ -31,8 +32,19 @@ export const WordsContextWrapper: FC<WordsContextWrapperProps> = ({
     );
   }, []);
 
+  const isFailure = (): boolean =>
+    wordsState.gameState === GameStates.IS_FAILURE;
+
+  const isSuccess = (): boolean =>
+    wordsState.gameState === GameStates.IS_SUCCESS;
+
+  const isInProgress = (): boolean =>
+    wordsState.gameState === GameStates.IN_PROGRESS;
+
   return (
-    <WordsContext.Provider value={{ wordsState, dispatch }}>
+    <WordsContext.Provider
+      value={{ wordsState, dispatch, isFailure, isSuccess, isInProgress }}
+    >
       {children}
     </WordsContext.Provider>
   );

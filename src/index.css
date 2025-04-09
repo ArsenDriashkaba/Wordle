@@ -1,4 +1,57 @@
 @import "tailwindcss";
 
 @theme {
+  /* --- COLORS --- */
+
+  /* -Primary- */
+  --color-primary: #ffca45;
+  --color-primary-500: #ffe761;
+
+  /* -Accent- */
+  --color-accent: #ff8c8c;
+
+  /* -Secondary- */
+  --color-secondary: #042140;
+  --color-secondary-100: #e6f2ff;
+  --color-secondary-300: #95acc4;
+  --color-secondary-500: #637282;
+
+  /* -Success- */
+  --color-success: #d4ef2c;
+  --color-success-100: #cdff57;
+
+  /* -Default- */
+  --color-black: #000000;
+
+  /* --- SPACING --- */
+
+  --spacing-1/10: 10%;
+
+  /* --- ANIMATIONS --- */
+
+  --animate-flip-horizontal: flip-horizontal 0.5s ease-in-out;
+
+  /* -Keyframes- */
+  @keyframes flip-horizontal {
+    0%,
+    100% {
+      transform: scaleX(1);
+    }
+    50% {
+      transform: scaleX(0);
+      background-color: transparent;
+    }
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(-10%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: none;
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
 }

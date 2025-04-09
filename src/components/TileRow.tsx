@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Tile } from "./Tile";
-import { GuessedChar } from "../store";
-import { Word } from "../types/shared";
+import { GuessedChar, Word } from "../types/shared";
 
 export type TileRowProps = {
   wordLength: number;
@@ -23,7 +22,7 @@ export const TileRow: FC<TileRowProps> = ({
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 relative">
       {[...Array(wordLength).keys()].map((index) => (
         <Tile
           key={index}

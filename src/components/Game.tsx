@@ -1,11 +1,12 @@
 import { FC } from "react";
-import { TileRow } from "./TileRow";
 import { useWordsContext, WordsActionTypes } from "../store";
-import { WORD_LENGTH } from "../constants/shared";
 import { useHandleGuessInput } from "../hooks/useHandleGuessInput";
+import { Button } from "./Button";
+import { ScreenKeyboard } from "./ScreenKeyboard";
+import { Board } from "./Board";
 
 export const Game: FC = () => {
-  const { wordsState, dispatch } = useWordsContext();
+  const { wordsState, dispatch, isSuccess, isInProgress } = useWordsContext();
 
   const handleSubmitGuess = () => {
     if (!currentGuess) {
@@ -16,76 +17,56 @@ export const Game: FC = () => {
     setCurrentGuess("");
   };
 
-  const { currentGuess, setCurrentGuess } = useHandleGuessInput({
+  const { currentGuess, setCurrentGuess, onKeyPressed } = useHandleGuessInput({
     onSubmit: handleSubmitGuess,
   });
 
   const handleResetGame = () => {
     dispatch({ type: WordsActionTypes.RESET_GAME_STATE });
+    setCurrentGuess("");
   };
+
+  const ResetButton: FC = () => (
+    <Button onClick={handleResetGame}>Reset game</Button>
+  );
+
+  const SuccessMessage: FC = () => (
+    <>
+      <h1 className="text-white">Success</h1>
+      <ResetButton />
+    </>
+  );
+
+  const FailureMessage: FC = () => (
+    <>
+      <h1 className="text-white">Failure! Better luck next time!</h1>
+      <ResetButton />
+    </>
+  );
+
+  if (!isInProgress()) {
+    return (
+      <div className="flex flex-col items-center justify-center">
+        {isSuccess() ? <SuccessMessage /> : <FailureMessage />}
+      </div>
+    );
+  }
 
   return (
     <div>
-      <h2 className="bold mb-2">{wordsState?.gameState}</h2>
-      <h2 className="bold mb-2 red-800">{wordsState?.errorMessage}</h2>
-      <h1 className="p-2 bg-amber-100">
-        {wordsState?.currentWord || "Loading..."}
-      </h1>
+      <h2 className="bold mb-2 text-red-800">{wordsState?.errorMessage}</h2>
 
-      <div className="flex flex-col gap-2 p-2">
-        {[...Array(WORD_LENGTH + 1).keys()].map((index) => {
-          const lastGuessId = wordsState.guesses?.length || 0;
+      <Board currentGuess={currentGuess} guesses={wordsState.guesses} />
 
-          if (index < lastGuessId) {
-            return (
-              <TileRow
-                key={index}
-                wordLength={WORD_LENGTH}
-                currentGuess={wordsState.guesses?.[index]}
-                isActive={true}
-              />
-            );
-          }
-
-          if (index === lastGuessId) {
-            return (
-              <TileRow
-                key={index}
-                wordLength={WORD_LENGTH}
-                currentGuess={currentGuess}
-                isActive={true}
-              />
-            );
-          }
-
-          return <TileRow key={index} wordLength={WORD_LENGTH} />;
-        })}
+      <div className="flex gap-0.5 justify-center">
+        <Button onClick={handleSubmitGuess}>Submit guess</Button>
+        <ResetButton />
       </div>
 
-      {currentGuess && <div className="p-2 bg-blue-200">{currentGuess}</div>}
-
-      <div className="flex gap-0.5">
-        <button
-          onClick={handleSubmitGuess}
-          className="m-2 px-6 py-2 bg-green-800 rounded-full text-white"
-        >
-          Submit guess
-        </button>
-        <button
-          onClick={handleResetGame}
-          className="m-2 px-6 py-2 bg-red-800 rounded-full text-white"
-        >
-          Reset game
-        </button>
-      </div>
-
-      <div className="flex gap-2">
-        {Array.from(wordsState.usedCharacters).map((char, idx) => (
-          <span key={idx} className="p-2 bg-emerald-100">
-            {char as string}
-          </span>
-        ))}
-      </div>
+      <ScreenKeyboard
+        onKeyPress={onKeyPressed}
+        usedCharacters={Array.from(wordsState.usedCharacters)}
+      />
     </div>
   );
 };

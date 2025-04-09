@@ -1,14 +1,14 @@
 import { FC } from "react";
-import { GuessedChar } from "../store";
 import { tv, VariantProps } from "tailwind-variants";
+import { GuessedChar } from "../types/shared";
 
 const tileStyles = tv({
-  base: "w-10 aspect-square font-medium bg-white border border-solid border-black flex items-center justify-center",
+  base: "w-12 aspect-square font-bold bg-white border border-solid bg-transparent border-secondary-100 flex items-center justify-center text-xl",
   variants: {
-    char: { true: "bg-gray-200" },
-    isActive: { false: "border-gray-300" },
-    isCorrect: { true: "bg-yellow-300" },
-    isOnCorrectPlace: { true: "bg-green-300" },
+    char: { true: "bg-secondary-100" },
+    isActive: { false: "border-secondary-100/40" },
+    isCorrect: { true: "bg-primary" },
+    isOnCorrectPlace: { true: "bg-success" },
     isLast: { true: "animate-bounce" },
   },
   defaultVariants: {},
