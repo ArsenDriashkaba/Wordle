@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { forwardRef } from "react";
 import { tv, VariantProps } from "tailwind-variants";
 import { GuessedChar } from "../../../types/shared";
 import { ButtonProps, Button } from "../../ui/Button";
@@ -24,27 +24,23 @@ export type KeyboardKeyProps = Partial<GuessedChar> &
   Omit<VariantProps<typeof keyboardKeyStyles>, "char"> &
   Omit<ButtonProps, "type" | "variant" | "size">;
 
-export const KeyboardKey: FC<KeyboardKeyProps> = ({
-  char,
-  isUsed,
-  isCorrect,
-  isOnCorrectPlace,
-  className,
-  ...rest
-}) => {
-  return (
-    <Button
-      className={keyboardKeyStyles({
-        char: !!char,
-        isUsed,
-        isCorrect,
-        isOnCorrectPlace,
-        className,
-      })}
-      size="keyboard"
-      {...rest}
-    >
-      {char || ""}
-    </Button>
-  );
-};
+export const KeyboardKey = forwardRef<HTMLButtonElement, KeyboardKeyProps>(
+  ({ char, isUsed, isCorrect, isOnCorrectPlace, className, ...rest }, ref) => {
+    return (
+      <Button
+        ref={ref}
+        className={keyboardKeyStyles({
+          char: !!char,
+          isUsed,
+          isCorrect,
+          isOnCorrectPlace,
+          className,
+        })}
+        size="keyboard"
+        {...rest}
+      >
+        {char || ""}
+      </Button>
+    );
+  }
+);

@@ -1,16 +1,15 @@
-export type Spacings = {
-  padding?: number;
-  gap?: number;
-};
+import { CSSProperties } from "react";
 
-export const getEvenItemWidthPerFlexRow = (
+export type Spacings = Pick<CSSProperties, "gap" | "padding">;
+
+export const getEqualFlexRowItemWidthStyle = (
   maxRowItemsCount: number,
   { padding, gap }: Spacings
-): string => {
-  const paddingCalcString: string = padding ? `-(--spacing(${padding}))*2` : "";
-  const gapCalcString: string = gap
-    ? `-(--spacing(${gap}))*${maxRowItemsCount - 1}`
-    : "";
+): CSSProperties => {
+  const paddingCalcString: string = padding ? `- ${padding} * 2` : "";
+  const gapCalcString: string = gap ? `- ${gap} * ${maxRowItemsCount - 1}` : "";
 
-  return `w-[calc((100%${paddingCalcString}${gapCalcString})/${maxRowItemsCount})]`;
+  return {
+    width: `calc((100% ${paddingCalcString} ${gapCalcString}) / ${maxRowItemsCount})`,
+  };
 };

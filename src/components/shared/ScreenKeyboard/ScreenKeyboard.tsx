@@ -4,27 +4,18 @@ import {
   KEYS,
   KEYBOARD_ROWS,
   KEYBOARD_GAP,
-  KEYBOARD_GAP_CLASS,
   KEYBOARD_PADDING,
-  KEYBOARD_PADDING_CLASS,
 } from "../../../constants/keys";
 import { GuessedChar } from "../../../types/shared";
 import { KeyboardKey, type KeyboardKeyProps } from "./KeyboardKey";
-import { getEvenItemWidthPerFlexRow } from "../../../utils/styles";
+import { getEqualFlexRowItemWidthStyle } from "../../../utils/styles";
 import { getMaxRowItemsCount } from "../../../utils/arrays";
 import { tv } from "tailwind-variants";
 
 const screenKeyboardStyles = tv({
   slots: {
-    base: [
-      "flex flex-col items-center my-2",
-      KEYBOARD_GAP_CLASS,
-      KEYBOARD_PADDING_CLASS,
-    ],
-    keyRow: [
-      "flex items-center justify-center w-full relative",
-      KEYBOARD_GAP_CLASS,
-    ],
+    base: "flex flex-col items-center my-2",
+    keyRow: "flex items-center justify-center w-full relative",
     key: ["py-2 font-medium", "sm:py-3 sm:font-large"],
   },
 });
@@ -60,29 +51,34 @@ export const ScreenKeyboard: FC<ScreenKeyboardProps> = ({
   );
 
   const { base, keyRow, key } = screenKeyboardStyles();
-  const keyWidthClass = getEvenItemWidthPerFlexRow(maxKeyInRowCount, {
+  const keyWidthStyle = getEqualFlexRowItemWidthStyle(maxKeyInRowCount, {
     gap: KEYBOARD_GAP,
     padding: KEYBOARD_PADDING,
   });
 
-  console.log({ usedCharacters });
-
   return (
-    <div className={base()}>
+    <div
+      className={base()}
+      style={{ gap: KEYBOARD_GAP, padding: KEYBOARD_PADDING }}
+    >
       {keyRows.map((row, rowIndex) => (
-        <div key={`keyboard-row-${rowIndex}`} className={keyRow()}>
+        <div
+          key={`keyboard-row-${rowIndex}`}
+          className={keyRow()}
+          style={{ gap: KEYBOARD_GAP }}
+        >
           {row.map(({ char, ...rest }) => (
             <KeyboardKey
               key={char}
               className={key({
                 className: [
-                  keyWidthClass,
                   char === KEYS.BACKSPACE && "bg-primary px-2",
                   char === KEYS.ENTER && "bg-primary px-2",
                 ],
               })}
               onClick={() => onKeyPress(char || "")}
               char={char === KEYS.BACKSPACE ? "⌫" : char}
+              style={keyWidthStyle}
               {...rest}
             />
           ))}

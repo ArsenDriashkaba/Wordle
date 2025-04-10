@@ -9,7 +9,5 @@ export const KEYBOARD_ROWS: string[][] = [
   [KEYS.ENTER, "Z", "X", "C", "V", "B", "N", "M", KEYS.BACKSPACE],
 ] as const;
 
-export const KEYBOARD_GAP: number = 1; // tailwind spacing value
-export const KEYBOARD_PADDING: number = 3; // tailwind spacing value
-export const KEYBOARD_GAP_CLASS: string = `gap-${KEYBOARD_GAP}`;
-export const KEYBOARD_PADDING_CLASS: string = `p-${KEYBOARD_PADDING}`;
+export const KEYBOARD_GAP: string = "0.25rem";
+export const KEYBOARD_PADDING: string = "1.5rem";
