@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { tv, VariantProps } from "tailwind-variants";
-import { GuessedChar } from "../types/shared";
-import { Button, ButtonProps } from "./Button";
+import { GuessedChar } from "../../../types/shared";
+import { ButtonProps, Button } from "../../ui/Button";
 
 const keyboardKeyStyles = tv({
   base: ["min-w-fit p-1 bg-white"],

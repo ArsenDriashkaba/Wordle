@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { WORD_LENGTH } from "../constants/shared";
+import { WORD_LENGTH } from "../../../constants/words";
 import { TileRow, type TileRowProps } from "./TileRow";
-import { GuessedChar, Word } from "../types/shared";
+import { GuessedChar, Word } from "../../../types/shared";
 
 export type BoardProps = {
   currentGuess: Word;

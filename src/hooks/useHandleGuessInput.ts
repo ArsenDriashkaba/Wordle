@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useKeyDown } from "./useKeyDown";
-import { WORD_LENGTH } from "../constants/shared";
+import { WORD_LENGTH } from "../constants/words";
 import { getIsKeyInputValid } from "../utils/words";
 import { Word } from "../types/shared";
 import { KEYS } from "../constants/keys";

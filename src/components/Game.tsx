@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { useWordsContext, WordsActionTypes } from "../store";
 import { useHandleGuessInput } from "../hooks/useHandleGuessInput";
-import { Button } from "./Button";
-import { ScreenKeyboard } from "./ScreenKeyboard";
-import { Board } from "./Board";
+import { Button } from "./ui/Button";
+import { ScreenKeyboard } from "./shared/ScreenKeyboard/ScreenKeyboard";
+import { Board } from "./shared/Board/Board";
 
 export const Game: FC = () => {
   const { wordsState, dispatch, isSuccess, isInProgress } = useWordsContext();

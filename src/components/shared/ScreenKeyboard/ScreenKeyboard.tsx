@@ -7,11 +7,11 @@ import {
   KEYBOARD_GAP_CLASS,
   KEYBOARD_PADDING,
   KEYBOARD_PADDING_CLASS,
-} from "../constants/keys";
-import { GuessedChar } from "../types/shared";
+} from "../../../constants/keys";
+import { GuessedChar } from "../../../types/shared";
 import { KeyboardKey, type KeyboardKeyProps } from "./KeyboardKey";
-import { getEvenItemWidthPerFlexRow } from "../utils/styles";
-import { getMaxRowItemsCount } from "../utils/arrays";
+import { getEvenItemWidthPerFlexRow } from "../../../utils/styles";
+import { getMaxRowItemsCount } from "../../../utils/arrays";
 import { tv } from "tailwind-variants";
 
 const screenKeyboardStyles = tv({

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { tv, VariantProps } from "tailwind-variants";
-import { GuessedChar } from "../types/shared";
+import { GuessedChar } from "../../../types/shared";
 
 const tileStyles = tv({
   base: "w-12 aspect-square font-bold bg-white border border-solid bg-transparent border-secondary-100 flex items-center justify-center text-xl",

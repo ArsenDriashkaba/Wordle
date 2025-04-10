@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { WordsContextWrapper } from "../store";
+import { WordsContextWrapper } from "../../../store";
 
 type Props = { children: ReactNode };
 

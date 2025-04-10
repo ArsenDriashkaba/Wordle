@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Tile } from "./Tile";
-import { GuessedChar, Word } from "../types/shared";
+import { GuessedChar, Word } from "../../../types/shared";
 
 export type TileRowProps = {
   wordLength: number;

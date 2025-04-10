@@ -1,4 +1,4 @@
-import { WORD_LENGTH } from "../constants/shared";
+import { WORD_LENGTH } from "../constants/words";
 import { GuessedChar } from "../types/shared";
 import { getRandomItem } from "../utils/arrays";
 import { getIsWordValid } from "../utils/words";
